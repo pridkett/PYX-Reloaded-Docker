@@ -15,5 +15,11 @@ RUN mvn clean package
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 COPY --from=1 /app/target/PYX-Reloaded-jar-with-dependencies.jar /app
+COPY --from=1 /app/WebContent /app/WebContent
+COPY --from=1 /app/pyx.sqlite /app
+COPY --from=1 /app/server.sqlite.default /app/server.sqlite
 COPY start.sh /app
+
+EXPOSE 80
+
 CMD ["/app/start.sh"]
