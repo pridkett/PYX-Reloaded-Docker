@@ -21,12 +21,34 @@ This project makes it easy to run PYX-Reloaded in a docker container so you
 don't need to worry about things like installing the right version of Java on
 your host system.
 
-Usage
------
+Building the Image
+------------------
 
 ```bash
 docker build . -t cards:latest
 ```
+
+Running the Image
+-----------------
+
+The image should be ready to go as long as you like the defualt sets of cards.
+
+```bash
+docker run --name cards -p 80:80 cards 
+```
+
+However, it won't have any sort of persistence. This means that changes to
+cards, bans, etc won't be persisted. For this to work you'll need to grab a
+[`pyx.sqlite`](https://github.com/pridkett/PYX-Reloaded/blob/master/pyx.sqlite?raw=true)
+and
+[`server.sqlite`](https://github.com/pridkett/PYX-Reloaded/blob/master/server.sqlite.default)
+file out of the repository and drop them on your local filesystem.
+Unfortunately, at this time, the underlying PYX-Reloaded system cannot create
+these files automatically on startup.
+
+```bash
+docker run --name cards -p 80:80 -v $(pwd)/pyx.sqlite:/app/pyx.sqlite -v $(pwd)/server.sqlite:/app/server.sqlite cards
+``` 
 
 FAQ
 ---
